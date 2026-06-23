@@ -1,0 +1,126 @@
+{
+  "campaignName": "yen-nhi-portfolio",
+  "seoTitle": "Yến Nhi - Chuyên viên Giám sát Logistics",
+  "seoDescription": "Portfolio cá nhân của Yến Nhi - Chuyên viên giám sát logistics chuyên nghiệp. Quản lý, tối ưu hóa và giám sát vận hành kho vận & chuỗi cung ứng.",
+  "hero": {
+    "headline": "Yến Nhi",
+    "subheadline": "Chuyên viên Giám sát Logistics chuyên nghiệp. Tối ưu hóa vận tải, quản lý kho bãi hiệu quả và đảm bảo luồng hàng hóa lưu thông thông suốt.",
+    "ctaText": "Liên hệ hợp tác",
+    "ctaHref": "#contact"
+  },
+  "about": {
+    "heading": "Về tôi",
+    "paragraph": "Tôi là Yến Nhi, một chuyên viên giám sát logistics với hơn 5 năm kinh nghiệm thực chiến trong quản lý chuỗi cung ứng, điều phối vận tải và tối ưu hóa hệ thống kho bãi. Với tư duy phân tích sắc bén và khả năng ứng biến linh hoạt, tôi cam kết mang lại các giải pháp vận hành hiệu quả nhất, giảm thiểu tối đa rủi ro và tiết kiệm chi phí cho doanh nghiệp.",
+    "decorations": {
+      "topLeft": "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png",
+      "bottomLeft": "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png",
+      "topRight": "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png",
+      "bottomRight": "https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png"
+    }
+  },
+  "services": {
+    "heading": "Kỹ năng",
+    "items": [
+      {
+        "id": "s1",
+        "num": "01",
+        "name": "Giám sát Vận hành Kho bãi",
+        "description": "Quản lý và kiểm soát quy trình nhập - xuất kho, bố trí sắp xếp sơ đồ kho hàng tối ưu nhằm tối đa hóa dung tích chứa và tăng tốc độ xử lý hàng hóa."
+      },
+      {
+        "id": "s2",
+        "num": "02",
+        "name": "Điều phối Vận tải & Vận chuyển",
+        "description": "Thiết lập lộ trình giao hàng thông minh, quản lý chất lượng các đối tác vận tải thủy - bộ và tối ưu hóa tỷ lệ lấp đầy container."
+      },
+      {
+        "id": "s3",
+        "num": "03",
+        "name": "Thủ tục Hải quan & Kiểm soát Chứng từ",
+        "description": "Thực hiện hồ sơ khai báo hải quan, áp mã HS chính xác, chuẩn bị các chứng từ xuất nhập khẩu thiết yếu (C/O, B/L, Invoice, Packing List)."
+      },
+      {
+        "id": "s4",
+        "num": "04",
+        "name": "Quản trị Rủi ro & An toàn Hàng hóa",
+        "description": "Giám sát quy trình bốc xếp, chằng buộc hàng hóa đạt chuẩn an toàn, kịp thời xử lý các phát sinh về tổn thất, chậm trễ lịch trình vận tải."
+      },
+      {
+        "id": "s5",
+        "num": "05",
+        "name": "Tối ưu Chi phí Logistics",
+        "description": "Báo cáo số liệu và phân tích chỉ số KPI hiệu suất logistics định kỳ, đề xuất các phương án cắt giảm chi phí phát sinh ngoài ngân sách."
+      }
+    ]
+  },
+  "certificates": {
+    "heading": "Sertificastes",
+    "items": [
+      {
+        "id": "c1",
+        "title": "FIATA Higher Diploma in Supply Chain Management",
+        "issuer": "International Federation of Freight Forwarders Associations",
+        "date": "2024"
+      },
+      {
+        "id": "c2",
+        "title": "Certified Logistics Operations & Warehouse Supervisor",
+        "issuer": "Vietnam Logistics Association (VLA)",
+        "date": "2023"
+      },
+      {
+        "id": "c3",
+        "title": "Customs Brokerage Professional License",
+        "issuer": "General Department of Vietnam Customs",
+        "date": "2022"
+      }
+    ]
+  },
+  "projects": {
+    "heading": "Dự án",
+    "items": [
+      {
+        "id": "p1",
+        "num": "01",
+        "category": "Warehouse Optimization",
+        "name": "Tối ưu hóa Sơ đồ Kho vận 10,000m²",
+        "liveUrl": "#",
+        "images": {
+          "col1_1": "/images/project_1_1.png",
+          "col1_2": "/images/project_1_2.png",
+          "col2": "/images/project_1_3.png"
+        }
+      },
+      {
+        "id": "p2",
+        "num": "02",
+        "category": "Fleet Operations",
+        "name": "Tái cấu trúc Tuyến đường Phân phối Hàng hóa",
+        "liveUrl": "#",
+        "images": {
+          "col1_1": "/images/project_2_1.png",
+          "col1_2": "/images/project_2_2.png",
+          "col2": "/images/project_2_3.png"
+        }
+      },
+      {
+        "id": "p3",
+        "num": "03",
+        "category": "Sustainability",
+        "name": "Chuỗi Cung ứng Xanh & Không phát thải Carbon",
+        "liveUrl": "#",
+        "images": {
+          "col1_1": "/images/project_3_1.png",
+          "col1_2": "/images/project_3_2.png",
+          "col2": "/images/project_3_3.png"
+        }
+      }
+    ]
+  },
+  "contact": {
+    "title": "Kết nối với tôi",
+    "description": "Bạn đang cần tìm giải pháp tối ưu chuỗi cung ứng hoặc giám sát quy trình kho vận? Hãy để lại thông tin của bạn bên dưới, tôi sẽ liên hệ lại sớm nhất.",
+    "ctaText": "Gửi thông tin",
+    "ctaHref": "#contact"
+  }
+}
