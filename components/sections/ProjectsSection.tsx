@@ -58,18 +58,31 @@ const projectTranslationsEn: Record<string, { category: string; name: string }> 
 export function ProjectsSection({ heading, items, lang = "vi" }: ProjectsSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const isEn = lang === "en";
-  const displayHeading = isEn ? "Projects" : heading;
+  const displayHeading = isEn ? "Project" : heading;
 
   return (
     <section
       ref={containerRef}
       id="projects"
-      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 pt-20 pb-32 px-5 sm:px-8 md:px-10 z-30 relative"
-      style={{
-        background: "linear-gradient(180deg, #FAF9F6 0%, rgba(250,249,246,0.65) 20%, rgba(250,249,246,0.65) 80%, #FAF9F6 100%), url('/images/background1.png') center center / cover no-repeat",
-      }}
+      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 pt-20 pb-32 px-5 sm:px-8 md:px-10 z-30 relative bg-transparent"
     >
-      <div className="max-w-5xl mx-auto">
+      {/* Background image stretched across the section */}
+      <div 
+        className="absolute inset-0 z-0 bg-no-repeat bg-center bg-cover"
+        style={{
+          backgroundImage: "url('/images/background5.png')",
+        }}
+      />
+
+      {/* Overlay for the entire section */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.65) 0%, rgba(255,255,255,0.5) 20%, rgba(255,255,255,0.5) 80%, rgba(255,255,255,0.65) 100%)"
+        }}
+      />
+
+      <div className="max-w-5xl mx-auto relative z-20">
         {/* Section Heading */}
         <FadeIn delay={0} y={40} duration={0.8}>
           <h2
@@ -81,7 +94,7 @@ export function ProjectsSection({ heading, items, lang = "vi" }: ProjectsSection
         </FadeIn>
 
         {/* Stacking Sticky Cards List */}
-        <div className="flex flex-col gap-12 sm:gap-24 md:gap-32">
+        <div className="flex flex-col gap-[35vh] pb-[20vh] relative">
           {items.map((project, index) => {
             const trans = isEn ? projectTranslationsEn[project.id] : projectTranslationsVi[project.id];
             const translatedProject = {
@@ -96,7 +109,6 @@ export function ProjectsSection({ heading, items, lang = "vi" }: ProjectsSection
                 project={translatedProject}
                 index={index}
                 total={items.length}
-                lang={lang}
               />
             );
           })}
@@ -110,61 +122,56 @@ function ProjectCard({
   project,
   index,
   total,
-  lang,
 }: {
   project: ProjectItem;
   index: number;
   total: number;
-  lang: "vi" | "en";
 }) {
-  const cardContainerRef = useRef<HTMLDivElement>(null);
-  const isEn = lang === "en";
+  const cardRef = useRef<HTMLDivElement>(null);
 
-  // Track the scroll of this specific card container to scale it down
+  // Track the scroll of this specific card to scale it down
   const { scrollYProgress } = useScroll({
-    target: cardContainerRef,
-    offset: ["start start", "end end"],
+    target: cardRef,
+    offset: ["start end", "end start"],
   });
 
   const targetScale = 1 - (total - 1 - index) * 0.03;
-  const scale = useTransform(scrollYProgress, [0, 1], [1, targetScale]);
+  const scale = useTransform(scrollYProgress, [0.45, 0.85], [1, targetScale]);
 
   return (
-    <div
-      ref={cardContainerRef}
-      className="min-h-[85vh] md:h-[100vh] relative flex flex-col items-center justify-start w-full"
+    <motion.div
+      ref={cardRef}
+      style={{
+        scale,
+        top: `calc(var(--sticky-card-top, 6rem) + ${index * 28}px)`, // accounts for Navbar spacing
+        zIndex: index + 10,
+        willChange: "transform",
+      }}
+      className="sticky w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8 flex flex-col gap-6 md:gap-8 shadow-2xl text-white [--sticky-card-top:6rem] md:[--sticky-card-top:8rem]"
     >
-      <motion.div
-        style={{
-          scale,
-          top: `calc(6rem + ${index * 28}px)`, // accounts for Navbar spacing
-          willChange: "transform",
-        }}
-        className="sticky w-full rounded-[30px] sm:rounded-[40px] md:rounded-[50px] lg:rounded-[60px] border-2 border-[#1A1A1A] bg-white p-4 sm:p-6 md:p-8 flex flex-col gap-6 md:gap-8 shadow-2xl"
-      >
-        {/* Top Row: Info & Button */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4 sm:gap-6">
-            {/* Number */}
-            <span
-              className="font-black text-[#1A1A1A]/15 leading-none select-none"
-              style={{ fontSize: "clamp(2rem, 6vw, 90px)" }}
-            >
-              {project.num}
+      {/* Top Row: Info & Button */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Number */}
+          <span
+            className="font-black text-white select-none leading-none w-14 sm:w-20 md:w-24 flex-shrink-0"
+            style={{ fontSize: "clamp(2rem, 5vw, 70px)" }}
+          >
+            {project.num}
+          </span>
+          <div className="flex flex-col text-left">
+            <span className="text-xs uppercase tracking-widest text-white/60 font-semibold mb-1">
+              {project.category}
             </span>
-            <div className="flex flex-col text-left">
-              <span className="text-xs uppercase tracking-widest text-[#1A1A1A]/60 font-semibold mb-1">
-                {project.category}
-              </span>
-              <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black uppercase text-[#1A1A1A] leading-tight">
-                {project.name}
-              </h3>
-            </div>
+            <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-black uppercase text-white leading-tight">
+              {project.name}
+            </h3>
           </div>
+        </div>
           <LiveProjectButton 
             href={project.liveUrl} 
-            variant="light" 
-            label={isEn ? "Details" : "Chi tiết"} 
+            variant="dark" 
+            label="Live Project" 
           />
         </div>
 
@@ -173,7 +180,7 @@ function ProjectCard({
           {/* Left Column (40% width) - 2 stacked images */}
           <div className="col-span-10 md:col-span-4 flex flex-col gap-4 sm:gap-6">
             <div
-              className="relative w-full rounded-[24px] sm:rounded-[32px] md:rounded-[40px] overflow-hidden bg-slate-950 border border-slate-900"
+              className="relative w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] overflow-hidden bg-slate-950 border border-slate-900"
               style={{ height: "clamp(130px, 16vw, 230px)" }}
             >
               <Image
@@ -186,7 +193,7 @@ function ProjectCard({
               />
             </div>
             <div
-              className="relative w-full rounded-[24px] sm:rounded-[32px] md:rounded-[40px] overflow-hidden bg-slate-950 border border-slate-900"
+              className="relative w-full rounded-[40px] sm:rounded-[50px] md:rounded-[60px] overflow-hidden bg-slate-950 border border-slate-900"
               style={{ height: "clamp(160px, 22vw, 340px)" }}
             >
               <Image
@@ -201,7 +208,7 @@ function ProjectCard({
           </div>
 
           {/* Right Column (60% width) - 1 tall image */}
-          <div className="col-span-10 md:col-span-6 relative min-h-[220px] md:min-h-auto rounded-[24px] sm:rounded-[32px] md:rounded-[40px] overflow-hidden bg-slate-950 border border-slate-900">
+          <div className="col-span-10 md:col-span-6 relative min-h-[220px] md:min-h-auto rounded-[40px] sm:rounded-[50px] md:rounded-[60px] overflow-hidden bg-slate-950 border border-slate-900">
             <Image
               src={project.images.col2}
               alt={`${project.name} main showcase`}
@@ -213,7 +220,6 @@ function ProjectCard({
           </div>
         </div>
       </motion.div>
-    </div>
   );
 }
 

@@ -1,7 +1,72 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { ContactButton } from "@/components/ui/ContactButton";
+
+interface TypewriterTextProps {
+  words: string[];
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  delayBetweenWords?: number;
+}
+
+export function TypewriterText({
+  words,
+  typingSpeed = 80,
+  deletingSpeed = 40,
+  delayBetweenWords = 2000,
+}: TypewriterTextProps) {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    const currentWord = words[currentWordIndex];
+
+    if (!isDeleting) {
+      if (currentText.length < currentWord.length) {
+        timer = setTimeout(() => {
+          setCurrentText(currentWord.substring(0, currentText.length + 1));
+        }, typingSpeed);
+      } else {
+        timer = setTimeout(() => {
+          setIsDeleting(true);
+        }, delayBetweenWords);
+      }
+    } else {
+      if (currentText.length > 0) {
+        timer = setTimeout(() => {
+          setCurrentText(currentWord.substring(0, currentText.length - 1));
+        }, deletingSpeed);
+      } else {
+        setIsDeleting(false);
+        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % words.length);
+      }
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentWordIndex, words, typingSpeed, deletingSpeed, delayBetweenWords]);
+
+  return (
+    <span className="inline-flex items-center min-h-[1.5em]">
+      <style>{`
+        @keyframes typewriter-blink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
+      <span>{currentText}</span>
+      <span
+        className="w-[3px] h-[1em] bg-[#2D6A4F] ml-1.5 inline-block"
+        style={{
+          animation: "typewriter-blink 0.8s steps(2, start) infinite",
+        }}
+      />
+    </span>
+  );
+}
 
 interface HeroSectionProps {
   headline: string;
@@ -27,28 +92,52 @@ export function HeroSection({
   const displayCta = isEn ? "Contact Me" : ctaText;
   const displayViewProjects = isEn ? "View Projects ↗" : "Xem dự án ↗";
   
-  const displayHeadlineSub = isEn ? (
-    <>
-      I supervise <span className="text-[#2D6A4F]">Logistics</span> operations with <span className="text-[#2D6A4F]">Efficiency</span> & <span className="text-[#2D6A4F]">Precision</span>
-    </>
-  ) : (
-    <>
-      Tôi giám sát vận hành <span className="text-[#2D6A4F]">Logistics</span> với <span className="text-[#2D6A4F]">Hiệu quả</span> & <span className="text-[#2D6A4F]">Sự chính xác</span>
-    </>
-  );
+  const displayHeadlineSubPrefix = isEn
+    ? "I supervise Logistics operations with "
+    : "Tôi giám sát vận hành Logistics với ";
+
+  const displayHeadlineSubWords = isEn
+    ? ["Efficiency", "Precision", "Optimization"]
+    : ["Hiệu quả", "Sự chính xác", "Sự tối ưu"];
 
   return (
     <section
       className="relative h-screen min-h-[600px] flex flex-col justify-center overflow-hidden text-[#1A1A1A] z-10 pt-20"
-      style={{
-        background: "linear-gradient(90deg, rgba(250,249,246,0.65) 0%, rgba(250,249,246,0.5) 45%, rgba(250,249,246,0) 70%), url('/images/hero_banner.png') center right 30% / cover no-repeat",
-      }}
     >
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        style={{ zIndex: 0 }}
+      >
+        <source src="/video_background_hero_banner/video_background.mp4" type="video/mp4" />
+      </video>
+
+      {/* Split background overlay (Left half solid white fading out, right half video) */}
+      <div 
+        className="absolute inset-y-0 left-0 w-full md:w-[55%] pointer-events-none hidden md:block"
+        style={{
+          zIndex: 1,
+          background: "linear-gradient(90deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.58) 75%, rgba(255,255,255,0.3) 88%, rgba(255,255,255,0) 100%)"
+        }}
+      />
+      {/* Mobile background overlay (full screen gradient for readability) */}
+      <div 
+        className="absolute inset-0 md:hidden pointer-events-none"
+        style={{
+          zIndex: 1,
+          background: "linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.68) 60%, rgba(255,255,255,0.3) 100%)"
+        }}
+      />
+
       {/* Hero Content (Left-aligned) */}
-      <div className="flex-grow flex items-center justify-start px-6 md:px-16 lg:px-24 z-20 relative w-full h-full mt-6 sm:mt-0">
+      <div className="flex-grow flex items-center justify-start px-6 md:px-16 lg:px-24 z-10 relative w-full h-full mt-6 sm:mt-0">
         <div className="max-w-[700px] text-left flex flex-col gap-4 sm:gap-5 md:gap-6">
           <FadeIn delay={0.1} y={30} duration={0.8}>
-            <span className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#2D6A4F]">
+            <span className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#2D6A4F] min-h-[1.5em] block">
               {displayIntro}
             </span>
           </FadeIn>
@@ -63,8 +152,11 @@ export function HeroSection({
           </FadeIn>
 
           <FadeIn delay={0.3} y={30} duration={0.8}>
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-black leading-snug text-[#1A1A1A] tracking-tight">
-              {displayHeadlineSub}
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-black leading-snug text-[#1A1A1A] tracking-tight min-h-[2.4em] sm:min-h-[auto]">
+              {displayHeadlineSubPrefix}
+              <span className="text-[#2D6A4F] inline-block font-black border-b-2 border-[#2D6A4F]/20">
+                <TypewriterText words={displayHeadlineSubWords} />
+              </span>
             </h2>
           </FadeIn>
 

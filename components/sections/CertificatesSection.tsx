@@ -52,17 +52,38 @@ const issuerTranslationsVi: Record<string, { title: string; issuer: string }> = 
 
 export function CertificatesSection({ items, lang = "vi" }: CertificatesSectionProps) {
   const isEn = lang === "en";
-  const displayHeading = isEn ? "Sertificastes" : "Chứng chỉ";
+  const displayHeading = isEn ? "Certificates" : "Chứng chỉ";
 
   return (
     <section
       id="certificates"
-      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-6 py-20 sm:py-24 md:py-32 relative z-20 -mt-10 sm:-mt-12 md:-mt-14"
-      style={{
-        background: "linear-gradient(270deg, rgba(250,249,246,0.65) 0%, rgba(250,249,246,0.5) 45%, rgba(250,249,246,0) 70%), url('/images/background2.png') center left / cover no-repeat",
-      }}
+      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-6 py-20 sm:py-24 md:py-32 relative z-20 -mt-10 sm:-mt-12 md:-mt-14 bg-transparent overflow-hidden"
     >
-      <div className="w-full md:max-w-[55vw] md:mr-10 lg:mr-20 md:ml-auto text-right flex flex-col items-end">
+      {/* Background image strictly on the left */}
+      <div 
+        className="absolute inset-0 z-0 bg-no-repeat bg-left bg-cover"
+        style={{
+          backgroundImage: "url('/images/background4.png')",
+        }}
+      />
+
+      {/* Overlay on the right side where text is */}
+      <div 
+        className="absolute inset-y-0 right-0 w-full md:w-[55%] pointer-events-none z-10 hidden md:block"
+        style={{
+          background: "linear-gradient(270deg, rgba(255,255,255,0.68) 0%, rgba(255,255,255,0.55) 75%, rgba(255,255,255,0.28) 88%, rgba(255,255,255,0) 100%)"
+        }}
+      />
+
+      {/* Mobile background overlay (full screen gradient for readability) */}
+      <div 
+        className="absolute inset-0 md:hidden pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.64) 60%, rgba(255,255,255,0.25) 100%)"
+        }}
+      />
+
+      <div className="w-full md:max-w-[55vw] md:mr-10 lg:mr-20 md:ml-auto text-right flex flex-col items-end relative z-20">
         {/* Section Heading */}
         <FadeIn delay={0} y={40} duration={0.8} className="w-full">
           <h2

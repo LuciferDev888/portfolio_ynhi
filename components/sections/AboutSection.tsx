@@ -24,17 +24,19 @@ const containerVariants = {
 const sentenceVariants = {
   hidden: { 
     opacity: 0, 
-    y: 25,
+    x: -40,
+    y: 10,
     filter: "blur(4px)",
   },
   visible: { 
     opacity: 1, 
+    x: 0,
     y: 0,
     filter: "blur(0px)",
     transition: { 
       type: "spring" as const,
-      damping: 22,
-      stiffness: 70,
+      damping: 20,
+      stiffness: 80,
       duration: 0.8,
     },
   },
@@ -64,17 +66,38 @@ export function AboutSection({
   return (
     <section
       id="about"
-      className="relative min-h-screen flex flex-col items-end justify-center text-right px-6 md:px-16 lg:px-24 py-20 overflow-hidden -mt-10 sm:-mt-12 md:-mt-14 rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px]"
-      style={{
-        background: "linear-gradient(270deg, rgba(250,249,246,0.65) 0%, rgba(250,249,246,0.5) 45%, rgba(250,249,246,0) 70%), url('/images/background2.png') center left / cover no-repeat",
-      }}
+      className="relative min-h-screen flex flex-col items-end justify-center text-left px-6 md:px-16 lg:px-24 py-20 overflow-hidden bg-transparent"
     >
-      {/* Contents Container (Right-aligned) */}
-      <div className="max-w-[700px] flex flex-col items-end justify-center relative z-20 text-right">
+      {/* Background image strictly on the left for desktop */}
+      <div 
+        className="absolute inset-0 z-0 bg-no-repeat bg-left bg-cover"
+        style={{
+          backgroundImage: "url('/images/background2.png')",
+        }}
+      />
+
+      {/* Overlay on the right side where text is */}
+      <div 
+        className="absolute inset-y-0 right-0 w-full md:w-[55%] pointer-events-none z-10 hidden md:block"
+        style={{
+          background: "linear-gradient(270deg, rgba(255,255,255,0.68) 0%, rgba(255,255,255,0.55) 75%, rgba(255,255,255,0.28) 88%, rgba(255,255,255,0) 100%)"
+        }}
+      />
+      
+      {/* Mobile background overlay (full screen gradient for readability) */}
+      <div 
+        className="absolute inset-0 md:hidden pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.64) 60%, rgba(255,255,255,0.25) 100%)"
+        }}
+      />
+
+      {/* Contents Container (Right-aligned in section, text left-aligned) */}
+      <div className="max-w-[650px] w-full flex flex-col items-start justify-center relative z-20 text-left md:mr-6 lg:mr-12">
         {/* Heading */}
         <FadeIn delay={0} y={40} duration={0.8}>
           <h2
-            className="hero-heading font-black uppercase leading-none tracking-tight text-right w-full"
+            className="hero-heading font-black uppercase leading-none tracking-tight text-left w-full"
             style={{ fontSize: "clamp(3rem, 10vw, 120px)" }}
           >
             {displayHeading}
@@ -87,13 +110,13 @@ export function AboutSection({
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
-          className="mt-8 sm:mt-12 w-full flex flex-col items-end gap-5 max-w-[580px]"
+          className="mt-8 sm:mt-12 w-full flex flex-col items-start gap-5 max-w-[580px]"
         >
           {activeSentences.map((sentence, idx) => (
             <motion.p
               key={idx}
               variants={sentenceVariants}
-              className={`text-[#1A1A1A] leading-relaxed select-none text-right ${
+              className={`text-[#1A1A1A] leading-relaxed select-none text-left ${
                 idx === 0
                   ? "text-2xl sm:text-3xl font-black text-[#2D6A4F]"
                   : "text-sm sm:text-base md:text-lg font-medium opacity-90"

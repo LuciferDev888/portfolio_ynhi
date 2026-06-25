@@ -26,12 +26,33 @@ export function ContactSection({ title, description, campaignName, lang = "vi" }
   return (
     <section
       id="contact"
-      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-6 py-20 sm:py-24 md:py-32 relative z-20 -mt-10 sm:-mt-12 md:-mt-14"
-      style={{
-        background: "linear-gradient(90deg, rgba(250,249,246,0.65) 0%, rgba(250,249,246,0.5) 45%, rgba(250,249,246,0) 70%), url('/images/background1.png') center right / cover no-repeat",
-      }}
+      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-6 py-20 sm:py-24 md:py-32 relative z-20 -mt-10 sm:-mt-12 md:-mt-14 bg-transparent overflow-hidden"
     >
-      <div className="w-full md:max-w-[50vw] md:ml-10 lg:ml-20 text-left flex flex-col gap-10">
+      {/* Background image strictly on the right */}
+      <div 
+        className="absolute inset-0 z-0 bg-no-repeat bg-right bg-cover"
+        style={{
+          backgroundImage: "url('/images/background6.png')",
+        }}
+      />
+
+      {/* Overlay on the left side where text is */}
+      <div 
+        className="absolute inset-y-0 left-0 w-full md:w-[55%] pointer-events-none z-10 hidden md:block"
+        style={{
+          background: "linear-gradient(90deg, rgba(255,255,255,0.68) 0%, rgba(255,255,255,0.55) 75%, rgba(255,255,255,0.28) 88%, rgba(255,255,255,0) 100%)"
+        }}
+      />
+
+      {/* Mobile background overlay (full screen gradient for readability) */}
+      <div 
+        className="absolute inset-0 md:hidden pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.64) 60%, rgba(255,255,255,0.25) 100%)"
+        }}
+      />
+
+      <div className="w-full md:max-w-[50vw] md:ml-10 lg:ml-20 text-left flex flex-col gap-10 relative z-20">
         
         {/* Info Text */}
         <div className="flex flex-col text-left">
