@@ -39,8 +39,10 @@ const skillTranslations: Record<string, { name: string; description: string }> =
   },
 };
 
-
-const itemVariants: Variants = {
+// ---------------------------------------------------------
+// DESKTOP LAYOUT (>= 1024px)
+// ---------------------------------------------------------
+const itemVariantsDesktop: Variants = {
   hidden: { opacity: 0, x: -80, filter: "blur(4px)" },
   visible: {
     opacity: 1,
@@ -54,13 +56,13 @@ const itemVariants: Variants = {
   },
 };
 
-export function ServicesSection({ heading, items, lang = "vi" }: ServicesSectionProps) {
+function ServicesSectionDesktop({ heading, items, lang = "vi" }: ServicesSectionProps) {
   const isEn = lang === "en";
   const displayHeading = isEn ? "Skills" : heading;
 
   return (
     <section
-      id="skills"
+      id="skills-desktop"
       className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-6 py-20 sm:py-24 md:py-32 relative z-20 -mt-10 sm:-mt-12 md:-mt-14 bg-transparent overflow-hidden"
     >
       {/* Background image stretched across the section */}
@@ -79,7 +81,7 @@ export function ServicesSection({ heading, items, lang = "vi" }: ServicesSection
         }}
       />
 
-      {/* Mobile background overlay (full screen gradient for readability) */}
+      {/* Mobile background overlay (fallback, just in case) */}
       <div 
         className="absolute inset-0 md:hidden pointer-events-none z-10"
         style={{
@@ -87,8 +89,7 @@ export function ServicesSection({ heading, items, lang = "vi" }: ServicesSection
         }}
       />
 
-      {/* Left Content Column */}
-      <div className="w-full md:max-w-[40vw] md:ml-10 lg:ml-20 text-left relative z-20">
+      <div className="w-full max-w-[40vw] ml-10 lg:ml-20 text-left relative z-20">
         {/* Section Heading */}
         <FadeIn delay={0} y={40} duration={0.8}>
           <h2
@@ -99,10 +100,8 @@ export function ServicesSection({ heading, items, lang = "vi" }: ServicesSection
           </h2>
         </FadeIn>
 
-        {/* Services Vertical List with individual slide-in scroll triggers */}
-        <div 
-          className="flex flex-col border-t border-[#1A1A1A]/15"
-        >
+        {/* Services Vertical List */}
+        <div className="flex flex-col border-t border-[#1A1A1A]/15">
           {items.map((item) => {
             const translated = isEn ? skillTranslations[item.id] : null;
             const displayName = translated ? translated.name : item.name;
@@ -111,7 +110,7 @@ export function ServicesSection({ heading, items, lang = "vi" }: ServicesSection
             return (
               <motion.div
                 key={item.id}
-                variants={itemVariants}
+                variants={itemVariantsDesktop}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: false, margin: "-100px" }}
@@ -149,5 +148,115 @@ export function ServicesSection({ heading, items, lang = "vi" }: ServicesSection
   );
 }
 
-export default ServicesSection;
+// ---------------------------------------------------------
+// MOBILE / TABLET LAYOUT (< 1024px)
+// ---------------------------------------------------------
+const itemVariantsMobile: Variants = {
+  hidden: { opacity: 0, x: -80, filter: "blur(4px)" },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      type: "spring",
+      stiffness: 160,
+      damping: 22,
+      delay: 0.5,
+    },
+  },
+};
 
+function ServicesSectionMobile({ heading, items, lang = "vi" }: ServicesSectionProps) {
+  const isEn = lang === "en";
+  const displayHeading = isEn ? "Skills" : heading;
+
+  return (
+    <section
+      id="skills-mobile"
+      className="text-[#1A1A1A] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-6 py-10 sm:py-16 relative z-20 -mt-10 sm:-mt-12 md:-mt-14 bg-[#FAF9F6] overflow-hidden"
+    >
+      {/* Mobile/Tablet background overlay */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.64) 60%, rgba(255,255,255,0.25) 100%)"
+        }}
+      />
+
+      <div className="w-full text-left relative z-20">
+        {/* Section Heading */}
+        <FadeIn delay={0} y={40} duration={0.8}>
+          <h2
+            className="text-[#1A1A1A] font-black uppercase text-left mb-8 sm:mb-12 tracking-tight leading-none"
+            style={{ fontSize: "clamp(2.5rem, 6vw, 60px)" }}
+          >
+            {displayHeading}
+          </h2>
+        </FadeIn>
+
+        {/* Services Vertical List */}
+        <div className="flex flex-col border-t border-[#1A1A1A]/15">
+          {items.map((item) => {
+            const translated = isEn ? skillTranslations[item.id] : null;
+            const displayName = translated ? translated.name : item.name;
+            const displayDesc = translated ? translated.description : item.description;
+
+            return (
+              <motion.div
+                key={item.id}
+                variants={itemVariantsMobile}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, margin: "-100px" }}
+                className="flex items-start justify-between gap-4 sm:gap-6 py-4 sm:py-5 border-b border-[#1A1A1A]/15 flex-row text-left hover:bg-[#2D6A4F]/5 px-2 rounded-xl transition-colors duration-200"
+              >
+                {/* Left Column: Number */}
+                <div
+                  className="font-black text-[#1A1A1A] select-none leading-none w-14 sm:w-16 flex-shrink-0"
+                  style={{ fontSize: "clamp(1.8rem, 4vw, 40px)" }}
+                >
+                  {item.num}
+                </div>
+
+                {/* Right Column: Name + Description stacked */}
+                <div className="flex-grow flex flex-col gap-1.5">
+                  <h3
+                    className="font-semibold text-[#1A1A1A] uppercase leading-tight text-base sm:text-lg"
+                  >
+                    {displayName}
+                  </h3>
+                  <p
+                    className="font-light text-[#1A1A1A] opacity-80 leading-relaxed text-xs sm:text-sm"
+                  >
+                    {displayDesc}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------
+// MAIN RESPONSIVE ROUTER
+// ---------------------------------------------------------
+export function ServicesSection(props: ServicesSectionProps) {
+  return (
+    <>
+      {/* Laptop / Desktop Version */}
+      <div className="hidden lg:block">
+        <ServicesSectionDesktop {...props} />
+      </div>
+
+      {/* Mobile / Tablet (iPad) Version */}
+      <div className="block lg:hidden">
+        <ServicesSectionMobile {...props} />
+      </div>
+    </>
+  );
+}
+
+export default ServicesSection;

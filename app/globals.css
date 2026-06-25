@@ -48,3 +48,25 @@ main {
   background: #9CA3AF;
 }
 
+/* Custom Serif Italic Utility and Marquee Animations */
+.font-serif-italic {
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+
+

@@ -9,6 +9,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { CertificatesSection } from "@/components/sections/CertificatesSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { Footer } from "@/components/layout/Footer";
 import { YenNhiLandingPageContent } from "@/types/landing";
 import { FairyDust } from "@/components/ui/FairyDust";
 
@@ -51,6 +52,7 @@ export function YenNhiLandingPageClient({ content }: YenNhiLandingPageClientProp
         {...content.contact} 
         campaignName={content.campaignName} 
       />
+      <Footer lang={lang} />
     </main>
   );
 }

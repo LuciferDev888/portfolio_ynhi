@@ -73,6 +73,12 @@
         "title": "Customs Brokerage Professional License",
         "issuer": "General Department of Vietnam Customs",
         "date": "2022"
+      },
+      {
+        "id": "c4",
+        "title": "Dangerous Goods Regulations (DGR) Certification",
+        "issuer": "International Air Transport Association (IATA)",
+        "date": "2025"
       }
     ]
   },

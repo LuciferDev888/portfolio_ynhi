@@ -11,6 +11,7 @@ interface FadeInProps {
   y?: number;
   className?: string;
   as?: string;
+  noExtraDelay?: boolean;
 }
 
 export function FadeIn({
@@ -21,6 +22,7 @@ export function FadeIn({
   y = 30,
   className,
   as = "div",
+  noExtraDelay = false,
 }: FadeInProps) {
   // Use motion.create to create the component dynamically
   const MotionComponent = motion.create(as as React.ElementType);
@@ -31,7 +33,7 @@ export function FadeIn({
       whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "50px", amount: 0 }}
       transition={{
-        delay,
+        delay: noExtraDelay ? delay : delay + 0.5,
         duration,
         ease: [0.25, 0.1, 0.25, 1],
       }}

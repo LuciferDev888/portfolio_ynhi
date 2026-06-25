@@ -136,13 +136,13 @@ export function HeroSection({
       {/* Hero Content (Left-aligned) */}
       <div className="flex-grow flex items-center justify-start px-6 md:px-16 lg:px-24 z-10 relative w-full h-full mt-6 sm:mt-0">
         <div className="max-w-[700px] text-left flex flex-col gap-4 sm:gap-5 md:gap-6">
-          <FadeIn delay={0.1} y={30} duration={0.8}>
+          <FadeIn delay={0.1} y={30} duration={0.8} noExtraDelay>
             <span className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#2D6A4F] min-h-[1.5em] block">
               {displayIntro}
             </span>
           </FadeIn>
 
-          <FadeIn delay={0.2} y={30} duration={0.8}>
+          <FadeIn delay={0.2} y={30} duration={0.8} noExtraDelay>
             <h1 className="hero-heading font-black leading-none text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] tracking-tight">
               <span className="text-[#2D6A4F]">{displayHeadline.split(" ")[0]}</span>{" "}
               <span className="text-[#1A1A1A]">
@@ -151,7 +151,7 @@ export function HeroSection({
             </h1>
           </FadeIn>
 
-          <FadeIn delay={0.3} y={30} duration={0.8}>
+          <FadeIn delay={0.3} y={30} duration={0.8} noExtraDelay>
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-[2.2rem] font-black leading-snug text-[#1A1A1A] tracking-tight min-h-[2.4em] sm:min-h-[auto]">
               {displayHeadlineSubPrefix}
               <span className="text-[#2D6A4F] inline-block font-black border-b-2 border-[#2D6A4F]/20">
@@ -160,13 +160,13 @@ export function HeroSection({
             </h2>
           </FadeIn>
 
-          <FadeIn delay={0.4} y={30} duration={0.8}>
+          <FadeIn delay={0.4} y={30} duration={0.8} noExtraDelay>
             <p className="text-sm sm:text-base md:text-lg text-[#1A1A1A]/80 font-medium leading-relaxed max-w-lg">
               {displaySubheadline}
             </p>
           </FadeIn>
 
-          <FadeIn delay={0.5} y={30} duration={0.8} className="flex gap-4 items-center flex-wrap mt-4">
+          <FadeIn delay={0.5} y={30} duration={0.8} className="flex gap-4 items-center flex-wrap mt-4" noExtraDelay>
             <ContactButton
               label={displayCta}
               href={ctaHref}
