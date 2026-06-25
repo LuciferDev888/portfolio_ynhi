@@ -196,8 +196,8 @@ function CertificatesSectionMobile({ items, lang = "vi" }: CertificatesSectionPr
           />
         </FadeIn>
 
-        {/* Certificates Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+        {/* Certificates Grid - Hardcoded grid-cols-2 for mobile/tablet */}
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 w-full">
           {items.map((item, index) => {
             const trans = isEn ? issuerTranslations[item.id] : issuerTranslationsVi[item.id];
             const displayTitle = trans ? trans.title : item.title;
@@ -210,17 +210,17 @@ function CertificatesSectionMobile({ items, lang = "vi" }: CertificatesSectionPr
                 y={30}
                 duration={0.8}
                 as="div"
-                className="bg-white/90 backdrop-blur-sm border-2 border-[#1A1A1A] p-5 sm:p-6 rounded-[20px] sm:rounded-[24px] flex flex-col justify-between min-h-[170px] sm:min-h-[190px] transition-all duration-300 hover:shadow-lg hover:bg-white text-right items-end w-full"
+                className="bg-white/90 backdrop-blur-sm border-2 border-[#1A1A1A] p-3 sm:p-4 rounded-[16px] sm:rounded-[20px] flex flex-col justify-between min-h-[120px] sm:min-h-[150px] transition-all duration-300 hover:shadow-lg hover:bg-white text-right items-end w-full"
               >
                 <div className="w-full flex flex-col items-end">
-                  <span className="inline-block px-2.5 py-0.5 bg-[#1A1A1A] text-white text-[10px] font-bold uppercase tracking-wider rounded-full mb-3">
+                  <span className="inline-block px-2 py-0.5 bg-[#1A1A1A] text-white text-[8px] sm:text-[10px] font-bold uppercase tracking-wider rounded-full mb-2.5">
                     {item.date}
                   </span>
-                  <h3 className="font-bold text-[#1A1A1A] leading-tight text-sm sm:text-base uppercase mb-2 w-full">
+                  <h3 className="font-bold text-[#1A1A1A] leading-tight text-[10px] sm:text-xs md:text-sm uppercase mb-1.5 w-full">
                     {displayTitle}
                   </h3>
                 </div>
-                <p className="font-light text-[10px] text-[#1A1A1A]/70 italic mt-auto w-full">
+                <p className="font-light text-[8px] sm:text-[10px] text-[#1A1A1A]/70 italic mt-auto w-full">
                   {isEn ? "Issued by:" : "Cấp bởi:"} {displayIssuer}
                 </p>
               </FadeIn>

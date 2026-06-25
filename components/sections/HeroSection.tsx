@@ -76,7 +76,10 @@ interface HeroSectionProps {
   lang?: "vi" | "en";
 }
 
-export function HeroSection({
+// ---------------------------------------------------------
+// DESKTOP LAYOUT (>= 1024px)
+// ---------------------------------------------------------
+function HeroSectionDesktop({
   headline,
   subheadline,
   ctaText,
@@ -102,6 +105,7 @@ export function HeroSection({
 
   return (
     <section
+      id="hero-desktop"
       className="relative h-screen min-h-[600px] flex flex-col justify-center overflow-hidden text-[#1A1A1A] z-10 pt-20"
     >
       {/* Background Video */}
@@ -118,24 +122,15 @@ export function HeroSection({
 
       {/* Split background overlay (Left half solid white fading out, right half video) */}
       <div 
-        className="absolute inset-y-0 left-0 w-full md:w-[55%] pointer-events-none hidden md:block"
+        className="absolute inset-y-0 left-0 w-full md:w-[55%] pointer-events-none z-10"
         style={{
-          zIndex: 1,
           background: "linear-gradient(90deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.58) 75%, rgba(255,255,255,0.3) 88%, rgba(255,255,255,0) 100%)"
-        }}
-      />
-      {/* Mobile background overlay (full screen gradient for readability) */}
-      <div 
-        className="absolute inset-0 md:hidden pointer-events-none"
-        style={{
-          zIndex: 1,
-          background: "linear-gradient(180deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.68) 60%, rgba(255,255,255,0.3) 100%)"
         }}
       />
 
       {/* Hero Content (Left-aligned) */}
-      <div className="flex-grow flex items-center justify-start px-6 md:px-16 lg:px-24 z-10 relative w-full h-full mt-6 sm:mt-0">
-        <div className="max-w-[700px] text-left flex flex-col gap-4 sm:gap-5 md:gap-6">
+      <div className="flex-grow flex items-center justify-start px-16 lg:px-24 z-20 relative w-full h-full">
+        <div className="max-w-[700px] text-left flex flex-col gap-6">
           <FadeIn delay={0.1} y={30} duration={0.8} noExtraDelay>
             <span className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#2D6A4F] min-h-[1.5em] block">
               {displayIntro}
@@ -182,13 +177,132 @@ export function HeroSection({
           </FadeIn>
         </div>
       </div>
-
-      {/* Spacer to balance layout */}
-      <div className="pb-8" />
     </section>
   );
 }
 
+// ---------------------------------------------------------
+// MOBILE / TABLET LAYOUT (< 1024px)
+// ---------------------------------------------------------
+function HeroSectionMobile({
+  headline,
+  subheadline,
+  ctaText,
+  ctaHref,
+  lang = "vi",
+}: HeroSectionProps) {
+  const isEn = lang === "en";
+  const displayIntro = isEn ? "Hi, I'm" : "Xin chào, tôi là";
+  const displayHeadline = isEn ? "Yen Nhi" : headline;
+  const displaySubheadline = isEn
+    ? "Professional Logistics Supervision Specialist. Optimizing transportation, managing warehouse operations efficiently, and ensuring seamless supply chain flow."
+    : subheadline;
+  const displayCta = isEn ? "Contact Me" : ctaText;
+  const displayViewProjects = isEn ? "View Projects ↗" : "Xem dự án ↗";
+  
+  const displayHeadlineSubPrefix = isEn
+    ? "I supervise Logistics operations with "
+    : "Tôi giám sát vận hành Logistics với ";
+
+  const displayHeadlineSubWords = isEn
+    ? ["Efficiency", "Precision", "Optimization"]
+    : ["Hiệu quả", "Sự chính xác", "Sự tối ưu"];
+
+  return (
+    <section
+      id="hero-mobile"
+      className="relative h-screen min-h-[560px] flex flex-col justify-center overflow-hidden text-[#1A1A1A] z-10 pt-16"
+    >
+      {/* Background Video - object-position shifted right to center/fully show character */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover object-[78%_center] pointer-events-none"
+        style={{ zIndex: 0 }}
+      >
+        <source src="/video_background_hero_banner/video_background.mp4" type="video/mp4" />
+      </video>
+
+      {/* Mobile/Tablet background overlay - soft fade to make text highly legible on left while character on right is clear */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-10"
+        style={{
+          background: "linear-gradient(90deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.65) 55%, rgba(255,255,255,0.2) 85%, rgba(255,255,255,0.05) 100%), linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%)"
+        }}
+      />
+
+      {/* Content Column (Responsive dimensions for mobile/tablet) */}
+      <div className="flex-grow flex items-center justify-start px-6 sm:px-12 z-20 relative w-full h-full mt-4">
+        <div className="max-w-[540px] text-left flex flex-col gap-3.5 sm:gap-4">
+          <FadeIn delay={0.1} y={20} duration={0.6} noExtraDelay>
+            <span className="text-sm sm:text-base font-bold uppercase tracking-wider text-[#2D6A4F] min-h-[1.5em] block">
+              {displayIntro}
+            </span>
+          </FadeIn>
+
+          <FadeIn delay={0.2} y={20} duration={0.6} noExtraDelay>
+            <h1 className="hero-heading font-black leading-none text-4xl sm:text-5xl tracking-tight">
+              <span className="text-[#2D6A4F]">{displayHeadline.split(" ")[0]}</span>{" "}
+              <span className="text-[#1A1A1A]">
+                {displayHeadline.split(" ").slice(1).join(" ")}
+              </span>
+            </h1>
+          </FadeIn>
+
+          <FadeIn delay={0.3} y={20} duration={0.6} noExtraDelay>
+            <h2 className="text-base sm:text-xl font-black leading-snug text-[#1A1A1A] tracking-tight min-h-[2.4em] sm:min-h-[auto]">
+              {displayHeadlineSubPrefix}
+              <span className="text-[#2D6A4F] inline-block font-black border-b-2 border-[#2D6A4F]/20">
+                <TypewriterText words={displayHeadlineSubWords} />
+              </span>
+            </h2>
+          </FadeIn>
+
+          <FadeIn delay={0.4} y={20} duration={0.6} noExtraDelay>
+            <p className="text-xs sm:text-sm text-[#1A1A1A]/85 font-medium leading-relaxed max-w-sm sm:max-w-md">
+              {displaySubheadline}
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.5} y={20} duration={0.6} className="flex gap-3 items-center flex-wrap mt-3" noExtraDelay>
+            <ContactButton
+              label={displayCta}
+              href={ctaHref}
+              variant="light"
+              className="bg-[#2D6A4F] border-[#2D6A4F] hover:bg-[#1E4D2B] text-white px-6 py-3 text-xs sm:text-sm shadow-md"
+            />
+            <a
+              href="#projects-mobile"
+              className="px-6 py-3 rounded-full border-2 border-[#1A1A1A] text-[#1A1A1A] bg-white/85 backdrop-blur-sm font-bold uppercase tracking-widest text-[10px] sm:text-xs hover:bg-[#1A1A1A]/5 transition-colors shadow-sm"
+            >
+              {displayViewProjects}
+            </a>
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------------------------------------------------------
+// MAIN RESPONSIVE ROUTER
+// ---------------------------------------------------------
+export function HeroSection(props: HeroSectionProps) {
+  return (
+    <>
+      {/* Laptop / Desktop Version */}
+      <div className="hidden lg:block">
+        <HeroSectionDesktop {...props} />
+      </div>
+
+      {/* Mobile / Tablet (iPad) Version */}
+      <div className="block lg:hidden">
+        <HeroSectionMobile {...props} />
+      </div>
+    </>
+  );
+}
+
 export default HeroSection;
-
-
