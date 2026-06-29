@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { FadeIn } from "@/components/ui/FadeIn";
 import { ContactButton } from "@/components/ui/ContactButton";
 
@@ -74,6 +75,8 @@ interface HeroSectionProps {
   ctaText: string;
   ctaHref: string;
   lang?: "vi" | "en";
+  isMobile?: boolean;
+  isMounted?: boolean;
 }
 
 // ---------------------------------------------------------
@@ -85,6 +88,8 @@ function HeroSectionDesktop({
   ctaText,
   ctaHref,
   lang = "vi",
+  isMobile = false,
+  isMounted = false,
 }: HeroSectionProps) {
   const isEn = lang === "en";
   const displayIntro = isEn ? "Hi, I'm" : "Xin chào, tôi là";
@@ -108,17 +113,31 @@ function HeroSectionDesktop({
       id="hero-desktop"
       className="relative h-screen min-h-[600px] flex flex-col justify-center overflow-hidden text-[#1A1A1A] z-10 pt-20"
     >
-      {/* Background Video */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        style={{ zIndex: 0 }}
-      >
-        <source src="/video_background_hero_banner/video_background.mp4" type="video/mp4" />
-      </video>
+      {/* Background Video (Muted, highly optimized MP4 & WebM, only loaded if mounted & desktop) */}
+      {isMounted && !isMobile ? (
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/video_background_hero_banner/video_background_poster.jpg"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          style={{ zIndex: 0 }}
+        >
+          <source src="/video_background_hero_banner/video_background_optimized.webm" type="video/webm" />
+          <source src="/video_background_hero_banner/video_background_optimized.mp4" type="video/mp4" />
+        </video>
+      ) : (
+        <Image
+          src="/video_background_hero_banner/video_background_poster.jpg"
+          alt="Hero Background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover pointer-events-none"
+          style={{ zIndex: 0 }}
+        />
+      )}
 
       {/* Split background overlay (Left half solid white fading out, right half video) */}
       <div 
@@ -213,17 +232,16 @@ function HeroSectionMobile({
       id="hero-mobile"
       className="relative h-screen min-h-[560px] flex flex-col justify-center overflow-hidden text-[#1A1A1A] z-10 pt-16"
     >
-      {/* Background Video - object-position shifted right to center/fully show character */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover object-[78%_center] pointer-events-none"
+      {/* Background Image instead of Video on Mobile to prevent lag & save CPU */}
+      <Image
+        src="/video_background_hero_banner/video_background_poster.jpg"
+        alt="Hero Background"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[78%_center] pointer-events-none"
         style={{ zIndex: 0 }}
-      >
-        <source src="/video_background_hero_banner/video_background.mp4" type="video/mp4" />
-      </video>
+      />
 
       {/* Mobile/Tablet background overlay - soft fade to make text highly legible on left while character on right is clear */}
       <div 
@@ -290,16 +308,29 @@ function HeroSectionMobile({
 // MAIN RESPONSIVE ROUTER
 // ---------------------------------------------------------
 export function HeroSection(props: HeroSectionProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <>
       {/* Laptop / Desktop Version */}
       <div className="hidden lg:block">
-        <HeroSectionDesktop {...props} />
+        <HeroSectionDesktop {...props} isMobile={isMobile} isMounted={isMounted} />
       </div>
 
       {/* Mobile / Tablet (iPad) Version */}
       <div className="block lg:hidden">
-        <HeroSectionMobile {...props} />
+        <HeroSectionMobile {...props} isMobile={isMobile} isMounted={isMounted} />
       </div>
     </>
   );
